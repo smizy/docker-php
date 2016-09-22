@@ -21,13 +21,14 @@ ENV XDEBUG_VERSION     2.4.1
 
 RUN set -x \
     && apk --no-cache --update add \
+        --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         php${PHP_MAJOR_VERSION}-curl \
         php${PHP_MAJOR_VERSION}-ctype \
         php${PHP_MAJOR_VERSION}-dom \
         php${PHP_MAJOR_VERSION}-fpm \
         php${PHP_MAJOR_VERSION}-intl \
         php${PHP_MAJOR_VERSION}-json \
-        php${PHP_MAJOR_VERSION}-mysql \
+        php${PHP_MAJOR_VERSION}-mbstring \
         php${PHP_MAJOR_VERSION}-opcache \
         php${PHP_MAJOR_VERSION}-openssl \
         php${PHP_MAJOR_VERSION}-pdo_mysql \
@@ -38,7 +39,10 @@ RUN set -x \
         php${PHP_MAJOR_VERSION}-zlib \
         ${PHP_EXTENSION} \
         wget \
-    && adduser -D  -g '' -s /sbin/nologin -u 1000 docker \
+    && ln -s /usr/bin/php7        /usr/bin/php \
+    && ln -s /usr/bin/phpize7     /usr/bin/phpize \
+    && ln -s /usr/bin/php-config7 /usr/bin/php-config \
+    && ln -s /usr/sbin/php-fpm7   /usr/sbin/php-fpm \
     ## composer
     && wget -q -O - https://getcomposer.org/installer \
          | php --  --install-dir=/usr/local/bin --filename=composer \
@@ -46,8 +50,11 @@ RUN set -x \
     && apk --no-cache add --virtual .builddeps \
         autoconf \
         automake \
+        bash \
         build-base \  
         git \
+    && apk --no-cache add --virtual .builddeps.edge \
+        --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         php${PHP_MAJOR_VERSION}-dev \
     && wget -q -O - https://pecl.php.net/get/xdebug-${XDEBUG_VERSION}.tgz \
         | tar -xzf - -C /tmp \
@@ -64,7 +71,10 @@ RUN set -x \
     && git clone https://github.com/jokkedk/webgrind \
     && cd webgrind \
     && rm -rf .git \
-    && apk del .builddeps
+    && apk del .builddeps .builddeps.edge \
+    ## user
+    && adduser -D  -g '' -s /sbin/nologin -u 1000 docker 
+
 
 COPY bin/*  /usr/local/bin/
 COPY etc/php-fpm.conf  /etc/php${PHP_MAJOR_VERSION}/

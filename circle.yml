@@ -2,7 +2,7 @@
 # https://circleci.com/docs/docker
 machine:
   environment:
-    VERSION: 5
+    VERSION: 7
     BUILD_DATE: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
     VCS_REF: ${CIRCLE_SHA1:0:7}
     TAG: ${VERSION}-alpine
@@ -39,10 +39,10 @@ deployment:
     owner: smizy
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker tag smizy/php:${TAG} smizy/php
+#      - docker tag smizy/php:${TAG} smizy/php
 #      - docker tag smizy/php:${TAG} smizy/php:${TAG_SHORT}
       - docker push smizy/php:${TAG}
 #      - docker push smizy/php:${TAG_SHORT}
-      - docker push smizy/php:latest
+#      - docker push smizy/php:latest
       - docker logout
       - curl -X POST 'https://hooks.microbadger.com/images/smizy/php/kt4cBzU-RiGizff2lIWPLX61Dz8='
