@@ -23,12 +23,12 @@ docker run -it --rm -v $(pwd):/var/www/html -p 8090:9000 -e XDEBUG_REMOTE=1 -e X
 docker run --name xdebug.profile -v $(pwd):/var/www/html -v /tmp -p 8090:9000 -e XDEBUG_PROFILER=1 -d smizy/php:5-alpine built-in php -S 0.0.0.0:9000
 
 ## add XDEBUG_PROFILE param to target page and profile data saved on /tmp
-open http://$(docker-machine env default):8090/?XDEUBG_PROFILE
+open http://$(docker-machine ip default):8090/?XDEUBG_PROFILE
 
 ## run webgrind(profile analyzer) server
 docker run -it --rm --volumes-from xdebug.profile  -p 8091:9000 -w /code smizy/php:5-alpine built-in php -S 0.0.0.0:9000
 
 ## access webgrind
-open http://$(docker-machine env default):8091/webgrind/
+open http://$(docker-machine ip default):8091/webgrind/
 ```
 
