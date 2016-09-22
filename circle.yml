@@ -45,4 +45,4 @@ deployment:
 #      - docker push smizy/php:${TAG_SHORT}
       - docker push smizy/php:latest
       - docker logout
-#      - curl -X POST 'https://hooks.microbadger.com/images/smizy/php/PPt6QPRZ4pz5T3VomNlg4BVneew='
+      - curl -X POST 'https://hooks.microbadger.com/images/smizy/php/kt4cBzU-RiGizff2lIWPLX61Dz8='
