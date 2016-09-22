@@ -16,8 +16,9 @@ LABEL \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/smizy/docker-php"
 
-ENV PHP_MAJOR_VERSION  ${VERSION}
-ENV XDEBUG_VERSION     2.4.1
+ENV PHP_MAJOR_VERSION     ${VERSION}
+ENV PECL_XDEBUG_VERSION   2.4.1
+ENV PECL_YAML_VERSION     1.2.0
 
 RUN set -x \
     && apk --no-cache --update add \
@@ -37,6 +38,7 @@ RUN set -x \
         php${PHP_MAJOR_VERSION}-zip \
         php${PHP_MAJOR_VERSION}-zlib \
         ${PHP_EXTENSION} \
+        yaml \
         wget \
     && adduser -D  -g '' -s /sbin/nologin -u 1000 docker \
     ## composer
@@ -49,15 +51,25 @@ RUN set -x \
         build-base \  
         git \
         php${PHP_MAJOR_VERSION}-dev \
-    && wget -q -O - https://pecl.php.net/get/xdebug-${XDEBUG_VERSION}.tgz \
+        yaml-dev \
+    && wget -q -O - https://pecl.php.net/get/xdebug-${PECL_XDEBUG_VERSION}.tgz \
         | tar -xzf - -C /tmp \
-    && cd /tmp/xdebug-${XDEBUG_VERSION} \
+    && cd /tmp/xdebug-${PECL_XDEBUG_VERSION} \
     && phpize \
     && ./configure --prefix=/usr \
     && make \
     && make test \
     && make install \
     && rm -rf /tmp/xdebug* \
+    ## yaml
+    && wget -q -O - https://pecl.php.net/get/yaml-${PECL_YAML_VERSION}.tgz \
+        | tar -xzf - -C /tmp \
+    && cd /tmp/yaml-${PECL_YAML_VERSION} \
+    && phpize \
+    && ./configure --prefix=/usr \
+    && make \
+    && make install \
+    && rm -rf /tmp/yaml* \    
     ## webgrind (xdebug profile analyzer)
     && mkdir -p /code \
     && cd /code \
