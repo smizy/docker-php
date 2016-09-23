@@ -39,6 +39,11 @@ if  [ "$1" = "php-fpm" ]; then
 
 elif [ "$1" = "built-in" ]; then
   shift
+
+  if [ "$1" = "" ]; then
+    exec php -S 0.0.0.0:9000
+  fi 
+
   exec "$@"
 fi
 
