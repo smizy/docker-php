@@ -18,7 +18,7 @@ LABEL \
 
 ENV PHP_MAJOR_VERSION     ${VERSION}
 ENV PECL_XDEBUG_VERSION   2.4.1
-ENV PECL_YAML_VERSION     1.2.0
+ENV PECL_YAML_VERSION     2.0.0RC8
 
 RUN set -x \
     && apk --no-cache --update add \
@@ -75,6 +75,7 @@ RUN set -x \
     && phpize \
     && ./configure --prefix=/usr \
     && make \
+#    && make test \
     && make install \
     && rm -rf /tmp/yaml* \ 
     ## webgrind (xdebug profile analyzer)
