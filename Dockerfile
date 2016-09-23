@@ -16,8 +16,9 @@ LABEL \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/smizy/docker-php"
 
-ENV PHP_MAJOR_VERSION  ${VERSION}
-ENV XDEBUG_VERSION     2.4.1
+ENV PHP_MAJOR_VERSION     ${VERSION}
+ENV PECL_XDEBUG_VERSION   2.4.1
+ENV PECL_YAML_VERSION     1.2.0
 
 RUN set -x \
     && apk --no-cache --update add \
@@ -39,6 +40,7 @@ RUN set -x \
         php${PHP_MAJOR_VERSION}-zlib \
         ${PHP_EXTENSION} \
         wget \
+        yaml \
     && ln -s /usr/bin/php7        /usr/bin/php \
     && ln -s /usr/bin/phpize7     /usr/bin/phpize \
     && ln -s /usr/bin/php-config7 /usr/bin/php-config \
@@ -53,18 +55,28 @@ RUN set -x \
         bash \
         build-base \  
         git \
+        yaml-dev
     && apk --no-cache add --virtual .builddeps.edge \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         php${PHP_MAJOR_VERSION}-dev \
-    && wget -q -O - https://pecl.php.net/get/xdebug-${XDEBUG_VERSION}.tgz \
+    && wget -q -O - https://pecl.php.net/get/xdebug-${PECL_XDEBUG_VERSION}.tgz \
         | tar -xzf - -C /tmp \
-    && cd /tmp/xdebug-${XDEBUG_VERSION} \
+    && cd /tmp/xdebug-${PECL_XDEBUG_VERSION} \
     && phpize \
     && ./configure --prefix=/usr \
     && make \
     && make test \
     && make install \
     && rm -rf /tmp/xdebug* \
+    ## yaml
+    && wget -q -O - https://pecl.php.net/get/yaml-${PECL_YAML_VERSION}.tgz \
+        | tar -xzf - -C /tmp \
+    && cd /tmp/yaml-${PECL_YAML_VERSION} \
+    && phpize \
+    && ./configure --prefix=/usr \
+    && make \
+    && make install \
+    && rm -rf /tmp/yaml* \ 
     ## webgrind (xdebug profile analyzer)
     && mkdir -p /code \
     && cd /code \
@@ -86,4 +98,5 @@ EXPOSE 9000
 ENTRYPOINT ["entrypoint.sh"]
 
 CMD ["php-fpm"]
-#CMD ["built-in" "php", "-S", "0.0.0.0:9000"]
+#CMD ["built-in"]
+#CMD ["php", "-S", "0.0.0.0:9000"] # as same as built-in
