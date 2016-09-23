@@ -38,8 +38,8 @@ RUN set -x \
         php${PHP_MAJOR_VERSION}-zip \
         php${PHP_MAJOR_VERSION}-zlib \
         ${PHP_EXTENSION} \
-        yaml \
         wget \
+        yaml \
     && adduser -D  -g '' -s /sbin/nologin -u 1000 docker \
     ## composer
     && wget -q -O - https://getcomposer.org/installer \
@@ -88,4 +88,5 @@ EXPOSE 9000
 ENTRYPOINT ["entrypoint.sh"]
 
 CMD ["php-fpm"]
-#CMD ["built-in" "php", "-S", "0.0.0.0:9000"]
+#CMD ["built-in"]
+#CMD ["php", "-S", "0.0.0.0:9000"] # as same as built-in
