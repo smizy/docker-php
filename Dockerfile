@@ -55,7 +55,7 @@ RUN set -x \
         bash \
         build-base \  
         git \
-        yaml-dev
+        yaml-dev \
     && apk --no-cache add --virtual .builddeps.edge \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         php${PHP_MAJOR_VERSION}-dev \
