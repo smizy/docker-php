@@ -11,6 +11,10 @@ XDEBUG_LOG=${XDEBUG_LOG:-0}
 
 YAML_PARSE=${YAML_PARSE:-1}
 
+## composer autoload time optimization: raise opcache memory
+OPCAHCE_MEMORY_SIZE=${OPCAHCE_MEMORY_SIZE:-128}
+echo opcache.memory_consumption=${OPCAHCE_MEMORY_SIZE} >> ${PHP_MODULE_INI_DIR}/opcache.ini
+
 if [ "${XDEBUG_REMOTE}" != "" ] || [ ${XDEBUG_PROFILER} -eq 1  ] ; then
 
   XDEBUG_INI=${PHP_MODULE_INI_DIR}/xdebug.ini
