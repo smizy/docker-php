@@ -2,11 +2,11 @@
 # https://circleci.com/docs/docker
 machine:
   environment:
-    VERSION: 7
+    VERSION: 7.0.11
     BUILD_DATE: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
     VCS_REF: ${CIRCLE_SHA1:0:7}
     TAG: ${VERSION}-alpine
-#    TAG_SHORT: 2.7-alpine
+    TAG_SHORT: ${VERSION%.*}-alpine
     BATS_VER: 0.4.0
   services: 
     - docker
@@ -20,7 +20,7 @@ dependencies:
     - if [[ ! -e ~/deps/bats_v${BATS_VER}.tar.gz ]]; then mkdir -p ~/deps; curl -sSL -o ~/deps/bats_v${BATS_VER}.tar.gz https://github.com/sstephenson/bats/archive/v${BATS_VER}.tar.gz; fi
     - tar -xf ~/deps/bats_v${BATS_VER}.tar.gz
     - sudo bats-${BATS_VER}/install.sh /usr/local
-    - sudo pip install docker-compose
+#    - sudo pip install docker-compose
   override:
     - docker info
     - docker version
@@ -40,9 +40,9 @@ deployment:
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
 #      - docker tag smizy/php:${TAG} smizy/php
-#      - docker tag smizy/php:${TAG} smizy/php:${TAG_SHORT}
+      - docker tag smizy/php:${TAG} smizy/php:${TAG_SHORT}
       - docker push smizy/php:${TAG}
-#      - docker push smizy/php:${TAG_SHORT}
+      - docker push smizy/php:${TAG_SHORT}
 #      - docker push smizy/php:latest
       - docker logout
       - curl -X POST 'https://hooks.microbadger.com/images/smizy/php/kt4cBzU-RiGizff2lIWPLX61Dz8='
