@@ -2,16 +2,20 @@
 
 set -eo pipefail
 
+PHP_MODULE_SO_DIR=/usr/lib/php${PHP_MAJOR_VERSION}/modules
+PHP_MODULE_INI_DIR=/etc/php${PHP_MAJOR_VERSION}/conf.d
+
 XDEBUG_REMOTE=${XDEBUG_REMOTE:-""}
 XDEBUG_PROFILER=${XDEBUG_PROFILER:-0}
 XDEBUG_LOG=${XDEBUG_LOG:-0}
 
+YAML_PARSE=${YAML_PARSE:-1}
+
 if [ "${XDEBUG_REMOTE}" != "" ] || [ ${XDEBUG_PROFILER} -eq 1  ] ; then
 
-  XDEBUG_SO=/usr/lib/php${PHP_MAJOR_VERSION}/modules/xdebug.so
-  XDEBUG_INI=/etc/php${PHP_MAJOR_VERSION}/conf.d/xdebug.ini
+  XDEBUG_INI=${PHP_MODULE_INI_DIR}/xdebug.ini
 
-  echo zend_extension=${XDEBUG_SO} > ${XDEBUG_INI}
+  echo zend_extension=${PHP_MODULE_SO_DIR}/xdebug.so > ${XDEBUG_INI}
 
   if [ "${XDEBUG_REMOTE}" != "" ]; then
       echo 'xdebug.remote_enable=on'       >> ${XDEBUG_INI} 
@@ -32,6 +36,11 @@ if [ "${XDEBUG_REMOTE}" != "" ] || [ ${XDEBUG_PROFILER} -eq 1  ] ; then
       echo 'xdebug.profiler_enable_trigger=on' >> ${XDEBUG_INI}
   fi
 
+fi
+
+if [ "${YAML_PARSE}" = "1" ]; then
+  echo extension=${PHP_MODULE_SO_DIR}/yaml.so > ${PHP_MODULE_INI_DIR}/yaml.ini
+  echo "yaml.decode_php=0" >> ${PHP_MODULE_INI_DIR}/yaml.ini
 fi
 
 if  [ "$1" = "php-fpm" ]; then
