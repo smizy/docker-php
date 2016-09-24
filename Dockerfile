@@ -49,8 +49,10 @@ RUN set -x \
         autoconf \
         automake \
         build-base \  
+        file \
         git \
         php${PHP_MAJOR_VERSION}-dev \
+        re2c \
         yaml-dev \
     && wget -q -O - https://pecl.php.net/get/xdebug-${PECL_XDEBUG_VERSION}.tgz \
         | tar -xzf - -C /tmp \
@@ -68,6 +70,7 @@ RUN set -x \
     && phpize \
     && ./configure --prefix=/usr \
     && make \
+#    && make test \
     && make install \
     && rm -rf /tmp/yaml* \    
     ## webgrind (xdebug profile analyzer)
@@ -88,5 +91,6 @@ EXPOSE 9000
 ENTRYPOINT ["entrypoint.sh"]
 
 CMD ["php-fpm"]
-#CMD ["built-in"]
-#CMD ["php", "-S", "0.0.0.0:9000"] # as same as built-in
+
+#CMD ["php", "-S", "0.0.0.0:9000"] # built-in php server
+#CMD ["built-in"]  # exec same as the above
