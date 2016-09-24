@@ -4,7 +4,6 @@ MAINTAINER smizy
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
-ARG PHP_EXTENSION
 
 LABEL \
     org.label-schema.build-date=$BUILD_DATE \
@@ -16,28 +15,28 @@ LABEL \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/smizy/docker-php"
 
-ENV PHP_MAJOR_VERSION     ${VERSION}
+ENV PHP_VERSION           ${VERSION}
+ENV PHP_VERSION_MAJOR     5
 ENV PECL_XDEBUG_VERSION   2.4.1
 ENV PECL_YAML_VERSION     1.2.0
 
 RUN set -x \
     && apk --no-cache --update add \
-        php${PHP_MAJOR_VERSION}-curl \
-        php${PHP_MAJOR_VERSION}-ctype \
-        php${PHP_MAJOR_VERSION}-dom \
-        php${PHP_MAJOR_VERSION}-fpm \
-        php${PHP_MAJOR_VERSION}-intl \
-        php${PHP_MAJOR_VERSION}-json \
-        php${PHP_MAJOR_VERSION}-mysql \
-        php${PHP_MAJOR_VERSION}-opcache \
-        php${PHP_MAJOR_VERSION}-openssl \
-        php${PHP_MAJOR_VERSION}-pdo_mysql \
-        php${PHP_MAJOR_VERSION}-pdo_pgsql \
-        php${PHP_MAJOR_VERSION}-phar \
-        php${PHP_MAJOR_VERSION}-xml \
-        php${PHP_MAJOR_VERSION}-zip \
-        php${PHP_MAJOR_VERSION}-zlib \
-        ${PHP_EXTENSION} \
+        php${PHP_VERSION_MAJOR}-curl \
+        php${PHP_VERSION_MAJOR}-ctype \
+        php${PHP_VERSION_MAJOR}-dom \
+        php${PHP_VERSION_MAJOR}-fpm \
+        php${PHP_VERSION_MAJOR}-intl \
+        php${PHP_VERSION_MAJOR}-json \
+        php${PHP_VERSION_MAJOR}-mysql \
+        php${PHP_VERSION_MAJOR}-opcache \
+        php${PHP_VERSION_MAJOR}-openssl \
+        php${PHP_VERSION_MAJOR}-pdo_mysql \
+        php${PHP_VERSION_MAJOR}-pdo_pgsql \
+        php${PHP_VERSION_MAJOR}-phar \
+        php${PHP_VERSION_MAJOR}-xml \
+        php${PHP_VERSION_MAJOR}-zip \
+        php${PHP_VERSION_MAJOR}-zlib \
         wget \
         yaml \
     && adduser -D  -g '' -s /sbin/nologin -u 1000 docker \
@@ -51,7 +50,7 @@ RUN set -x \
         build-base \  
         file \
         git \
-        php${PHP_MAJOR_VERSION}-dev \
+        php${PHP_VERSION_MAJOR}-dev \
         re2c \
         yaml-dev \
     && wget -q -O - https://pecl.php.net/get/xdebug-${PECL_XDEBUG_VERSION}.tgz \
@@ -82,7 +81,7 @@ RUN set -x \
     && apk del .builddeps
 
 COPY bin/*  /usr/local/bin/
-COPY etc/php-fpm.conf  /etc/php${PHP_MAJOR_VERSION}/
+COPY etc/php-fpm.conf  /etc/php${PHP_VERSION_MAJOR}/
 
 WORKDIR /var/www/html
 

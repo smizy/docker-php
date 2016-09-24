@@ -1,7 +1,7 @@
 @test "php is the correct version" {
   run docker run smizy/php:${TAG} php -v
   [ $status -eq 0 ]
-  [ "${lines[0]:0:5}" = "PHP ${VERSION}" ]
+  [ "${lines[0]:0:5}" = "PHP 5" ]
 }
 
 @test "xdebug flag is correctly set" {
