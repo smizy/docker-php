@@ -35,11 +35,12 @@ RUN set -x \
         php${PHP_MAJOR_VERSION}-pdo_mysql \
         php${PHP_MAJOR_VERSION}-pdo_pgsql \
         php${PHP_MAJOR_VERSION}-phar \
-        php${PHP_MAJOR_VERSION}-readline \
+#        php${PHP_MAJOR_VERSION}-readline \
         php${PHP_MAJOR_VERSION}-xml \
         php${PHP_MAJOR_VERSION}-zip \
         php${PHP_MAJOR_VERSION}-zlib \
         ${PHP_EXTENSION} \
+#        readline \
         wget \
         yaml \
     && ln -s /usr/bin/php7        /usr/bin/php \
@@ -55,7 +56,9 @@ RUN set -x \
         automake \
         bash \
         build-base \  
+        file \
         git \
+        re2c \
         yaml-dev \
     && apk --no-cache add --virtual .builddeps.edge \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
