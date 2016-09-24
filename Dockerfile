@@ -35,6 +35,7 @@ RUN set -x \
         php${PHP_MAJOR_VERSION}-pdo_mysql \
         php${PHP_MAJOR_VERSION}-pdo_pgsql \
         php${PHP_MAJOR_VERSION}-phar \
+        php${PHP_MAJOR_VERSION}-readline \
         php${PHP_MAJOR_VERSION}-xml \
         php${PHP_MAJOR_VERSION}-zip \
         php${PHP_MAJOR_VERSION}-zlib \
@@ -99,5 +100,6 @@ EXPOSE 9000
 ENTRYPOINT ["entrypoint.sh"]
 
 CMD ["php-fpm"]
-#CMD ["built-in"]
-#CMD ["php", "-S", "0.0.0.0:9000"] # as same as built-in
+
+#CMD ["php", "-S", "0.0.0.0:9000"] # built-in php server
+#CMD ["built-in"]  # exec same as the above
