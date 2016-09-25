@@ -7,13 +7,17 @@ PHP_MODULE_INI_DIR=/etc/php${PHP_VERSION_MAJOR}/conf.d
 
 XDEBUG_REMOTE=${XDEBUG_REMOTE:-""}
 XDEBUG_PROFILER=${XDEBUG_PROFILER:-0}
-XDEBUG_LOG=${XDEBUG_LOG:-0}
+XDEBUG_LOG=${XDEBUG_LOG:-""}
 
 YAML_PARSE=${YAML_PARSE:-1}
 
-## composer autoload time optimization: raise opcache memory
-OPCAHCE_MEMORY_SIZE=${OPCAHCE_MEMORY_SIZE:-128}
-echo opcache.memory_consumption=${OPCAHCE_MEMORY_SIZE} >> ${PHP_MODULE_INI_DIR}/opcache.ini
+## https://www.scalingphpbook.com/blog/2014/02/14/best-zend-opcache-settings.html
+OPCACHE_VALIDATE_TIMESTAMPS=${OPCACHE_VALIDATE_TIMESTAMPS:-1}
+
+OPCACHE_INI=${PHP_MODULE_INI_DIR}/opcache.ini
+
+echo opcache.validate_timestamps=${OPCACHE_VALIDATE_TIMESTAMPS} >> ${OPCACHE_INI}
+echo opcache.revalidate_freq=0 >> ${OPCACHE_INI}
 
 if [ "${XDEBUG_REMOTE}" != "" ] || [ ${XDEBUG_PROFILER} -eq 1  ] ; then
 
