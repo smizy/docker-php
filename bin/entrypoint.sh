@@ -48,7 +48,8 @@ fi
 
 if [ "${YAML_PARSE}" = "1" ]; then
   echo extension=${PHP_MODULE_SO_DIR}/yaml.so > ${PHP_MODULE_INI_DIR}/yaml.ini
-  echo "yaml.decode_php=0" >> ${PHP_MODULE_INI_DIR}/yaml.ini
+  # 2.0.0 changed default false
+  # echo "yaml.decode_php=0" >> ${PHP_MODULE_INI_DIR}/yaml.ini
 fi
 
 if  [ "$1" = "php-fpm" ]; then

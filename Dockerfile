@@ -18,9 +18,12 @@ LABEL \
 ENV PHP_VERSION           ${VERSION}
 ENV PHP_VERSION_MAJOR     7
 ENV PECL_XDEBUG_VERSION   2.4.1
-ENV PECL_YAML_VERSION     2.0.0RC8
+ENV PECL_YAML_VERSION     2.0.0
 
 RUN set -x \
+    &&  apk --no-cache --update add \
+        --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
+        libressl2.4-libssl \
     && apk --no-cache --update add \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         php${PHP_VERSION_MAJOR}-curl \
