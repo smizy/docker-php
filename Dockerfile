@@ -18,7 +18,7 @@ LABEL \
 ENV PHP_VERSION           ${VERSION}
 ENV PHP_VERSION_MAJOR     5
 ENV PECL_XDEBUG_VERSION   2.4.1
-ENV PECL_YAML_VERSION     1.2.0
+ENV PECL_YAML_VERSION     1.3.0
 
 RUN set -x \
     && apk --no-cache --update add \
