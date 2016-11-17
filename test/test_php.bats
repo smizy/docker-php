@@ -1,5 +1,7 @@
 @test "php is the correct version" {
   run docker run smizy/php:${TAG} php -v
+  echo "${output}" 
+
   [ $status -eq 0 ]
   
   line1_words=( `echo ${lines[0]}` )
