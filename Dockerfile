@@ -40,6 +40,7 @@ RUN set -x \
         php${PHP_VERSION_MAJOR}-pdo_pgsql \
         php${PHP_VERSION_MAJOR}-phar \
 #        php${PHP_VERSION_MAJOR}-readline \
+        php${PHP_VERSION_MAJOR}-session \
         php${PHP_VERSION_MAJOR}-xml \
         php${PHP_VERSION_MAJOR}-zip \
         php${PHP_VERSION_MAJOR}-zlib \
