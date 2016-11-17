@@ -4,7 +4,7 @@
 
   [ $status -eq 0 ]
   
-  line1_words=( `echo ${lines[0]}` )
+  line1_words=( ${lines[0]} )
   [ "${line1_words[1]}" = "${VERSION}" ]
 }
 
