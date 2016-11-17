@@ -13,6 +13,7 @@ LABEL \
     org.label-schema.url="https://github.com/smizy" \
     org.label-schema.vcs-ref=$VCS_REF \
     org.label-schema.vcs-type="Git" \
+    org.label-schema.version=$VERSION \
     org.label-schema.vcs-url="https://github.com/smizy/docker-php"
 
 ENV PHP_VERSION           ${VERSION}
