@@ -18,7 +18,6 @@ LABEL \
 
 ENV PHP_VERSION           ${VERSION}
 ENV PHP_VERSION_MAJOR     7
-ENV PECL_XDEBUG_VERSION   2.5.0
 ENV PECL_YAML_VERSION     2.0.0
 
 RUN set -x \
@@ -41,6 +40,7 @@ RUN set -x \
         php${PHP_VERSION_MAJOR}-phar \
 #        php${PHP_VERSION_MAJOR}-readline \
         php${PHP_VERSION_MAJOR}-session \
+        php${PHP_VERSION_MAJOR}-xdebug \
         php${PHP_VERSION_MAJOR}-xml \
         php${PHP_VERSION_MAJOR}-zip \
         php${PHP_VERSION_MAJOR}-zlib \
@@ -53,12 +53,12 @@ RUN set -x \
     ## composer
     && wget -q -O - https://getcomposer.org/installer \
          | php --  --install-dir=/usr/local/bin --filename=composer \
-    ## xdebug
+    ## build pecl package
     && apk --no-cache add --virtual .builddeps \
         autoconf \
         automake \
         bash \
-        build-base \  
+        build-base \
         file \
         git \
         re2c \
@@ -66,15 +66,6 @@ RUN set -x \
     && apk --no-cache add --virtual .builddeps.edge \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
         php${PHP_VERSION_MAJOR}-dev \
-    && wget -q -O - https://pecl.php.net/get/xdebug-${PECL_XDEBUG_VERSION}.tgz \
-        | tar -xzf - -C /tmp \
-    && cd /tmp/xdebug-${PECL_XDEBUG_VERSION} \
-    && phpize \
-    && ./configure --prefix=/usr \
-    && make \
-    && make test \
-    && make install \
-    && rm -rf /tmp/xdebug* \
     ## yaml
     && wget -q -O - https://pecl.php.net/get/yaml-${PECL_YAML_VERSION}.tgz \
         | tar -xzf - -C /tmp \
@@ -84,7 +75,7 @@ RUN set -x \
     && make \
 #    && make test \
     && make install \
-    && rm -rf /tmp/yaml* \ 
+    && rm -rf /tmp/yaml* \
     ## webgrind (xdebug profile analyzer)
     && mkdir -p /code \
     && cd /code \
