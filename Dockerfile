@@ -18,7 +18,6 @@ LABEL \
 
 ENV PHP_VERSION           ${VERSION}
 ENV PHP_VERSION_MAJOR     5
-ENV PECL_XDEBUG_VERSION   2.4.1
 ENV PECL_YAML_VERSION     1.3.0
 
 RUN set -x \
@@ -40,11 +39,14 @@ RUN set -x \
         php${PHP_VERSION_MAJOR}-zlib \
         wget \
         yaml \
-    && adduser -D  -g '' -s /sbin/nologin -u 1000 docker \
+    ## xdebug
+    && apk --no-cache --update add \
+        --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
+        php${PHP_VERSION_MAJOR}-xdebug \
     ## composer
     && wget -q -O - https://getcomposer.org/installer \
          | php --  --install-dir=/usr/local/bin --filename=composer \
-    ## xdebug
+    ## build pecl package
     && apk --no-cache add --virtual .builddeps \
         autoconf \
         automake \
@@ -54,15 +56,6 @@ RUN set -x \
         php${PHP_VERSION_MAJOR}-dev \
         re2c \
         yaml-dev \
-    && wget -q -O - https://pecl.php.net/get/xdebug-${PECL_XDEBUG_VERSION}.tgz \
-        | tar -xzf - -C /tmp \
-    && cd /tmp/xdebug-${PECL_XDEBUG_VERSION} \
-    && phpize \
-    && ./configure --prefix=/usr \
-    && make \
-    && make test \
-    && make install \
-    && rm -rf /tmp/xdebug* \
     ## yaml
     && wget -q -O - https://pecl.php.net/get/yaml-${PECL_YAML_VERSION}.tgz \
         | tar -xzf - -C /tmp \
@@ -79,8 +72,10 @@ RUN set -x \
     && git clone https://github.com/jokkedk/webgrind \
     && cd webgrind \
     && rm -rf .git \
-    && apk del .builddeps
-
+    && apk del .builddeps \
+    ## user
+    && adduser -D  -g '' -s /sbin/nologin -u 1000 docker \
+    
 COPY bin/*  /usr/local/bin/
 COPY etc/php-fpm.conf  /etc/php${PHP_VERSION_MAJOR}/
 
