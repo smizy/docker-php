@@ -74,7 +74,7 @@ RUN set -x \
     && rm -rf .git \
     && apk del .builddeps \
     ## user
-    && adduser -D  -g '' -s /sbin/nologin -u 1000 docker \
+    && adduser -D  -g '' -s /sbin/nologin -u 1000 docker
     
 COPY bin/*  /usr/local/bin/
 COPY etc/php-fpm.conf  /etc/php${PHP_VERSION_MAJOR}/
