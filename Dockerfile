@@ -23,6 +23,7 @@ ENV PECL_YAML_VERSION     2.0.0
 RUN set -x \
     &&  apk --no-cache --update add \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
+        icu-libs \
         libressl2.4-libssl \
     && apk --no-cache --update add \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
@@ -55,6 +56,7 @@ RUN set -x \
          | php --  --install-dir=/usr/local/bin --filename=composer \
     ## build pecl package
     && apk --no-cache add --virtual .builddeps \
+        --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
         autoconf \
         automake \
         bash \
