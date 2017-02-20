@@ -1,6 +1,6 @@
 # docker-php
-[![](https://images.microbadger.com/badges/image/smizy/php:7.0.15-alpine.svg)](https://microbadger.com/images/smizy/php "Get your own image badge on microbadger.com") 
-[![](https://images.microbadger.com/badges/version/smizy/php:7.0.15-alpine.svg)](https://microbadger.com/images/smizy/php "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/smizy/php:7.0.16-alpine.svg)](https://microbadger.com/images/smizy/php "Get your own image badge on microbadger.com") 
+[![](https://images.microbadger.com/badges/version/smizy/php:7.0.16-alpine.svg)](https://microbadger.com/images/smizy/php "Get your own version badge on microbadger.com")
 [![CircleCI](https://circleci.com/gh/smizy/docker-php/tree/7.0.svg?style=svg&circle-token=c0772bbd1324e123a5bc5b10b00cf1191efd7846)](https://circleci.com/gh/smizy/docker-php/tree/7.0)
 
 PHP docker image based on alpine

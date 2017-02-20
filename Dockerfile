@@ -21,12 +21,8 @@ ENV PHP_VERSION_MAJOR     7
 ENV PECL_YAML_VERSION     2.0.0
 
 RUN set -x \
-    &&  apk --no-cache --update add \
-        --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
-        icu-libs \
-        libressl2.4-libssl \
-    && apk --no-cache --update add \
-        --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
+    && apk update \
+    && apk --no-cache add \
         php${PHP_VERSION_MAJOR}-curl \
         php${PHP_VERSION_MAJOR}-ctype \
         php${PHP_VERSION_MAJOR}-dom \
@@ -56,18 +52,15 @@ RUN set -x \
          | php --  --install-dir=/usr/local/bin --filename=composer \
     ## build pecl package
     && apk --no-cache add --virtual .builddeps \
-        --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
         autoconf \
         automake \
         bash \
         build-base \
         file \
         git \
+        php${PHP_VERSION_MAJOR}-dev \
         re2c \
         yaml-dev \
-    && apk --no-cache add --virtual .builddeps.edge \
-        --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
-        php${PHP_VERSION_MAJOR}-dev \
     ## yaml
     && wget -q -O - https://pecl.php.net/get/yaml-${PECL_YAML_VERSION}.tgz \
         | tar -xzf - -C /tmp \
@@ -84,7 +77,7 @@ RUN set -x \
     && git clone https://github.com/jokkedk/webgrind \
     && cd webgrind \
     && rm -rf .git \
-    && apk del .builddeps .builddeps.edge \
+    && apk del .builddeps \
     ## user
     && adduser -D  -g '' -s /sbin/nologin -u 1000 docker 
 
