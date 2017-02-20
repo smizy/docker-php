@@ -17,29 +17,36 @@ LABEL \
     org.label-schema.vcs-url="https://github.com/smizy/docker-php"
 
 ENV PHP_VERSION           ${VERSION}
-ENV PHP_VERSION_MAJOR     5
-ENV PECL_YAML_VERSION     1.3.0
+ENV PHP_VERSION_MAJOR     7
+ENV PECL_YAML_VERSION     2.0.0
 
 RUN set -x \
-    && apk --no-cache --update add \
+    && apk update \
+    && apk --no-cache add \
         php${PHP_VERSION_MAJOR}-curl \
         php${PHP_VERSION_MAJOR}-ctype \
         php${PHP_VERSION_MAJOR}-dom \
         php${PHP_VERSION_MAJOR}-fpm \
         php${PHP_VERSION_MAJOR}-intl \
         php${PHP_VERSION_MAJOR}-json \
-        php${PHP_VERSION_MAJOR}-mysql \
+        php${PHP_VERSION_MAJOR}-mbstring \
         php${PHP_VERSION_MAJOR}-opcache \
         php${PHP_VERSION_MAJOR}-openssl \
         php${PHP_VERSION_MAJOR}-pdo_mysql \
         php${PHP_VERSION_MAJOR}-pdo_pgsql \
         php${PHP_VERSION_MAJOR}-phar \
+#        php${PHP_VERSION_MAJOR}-readline \
+        php${PHP_VERSION_MAJOR}-session \
+        php${PHP_VERSION_MAJOR}-xdebug \
         php${PHP_VERSION_MAJOR}-xml \
         php${PHP_VERSION_MAJOR}-zip \
         php${PHP_VERSION_MAJOR}-zlib \
-        php${PHP_VERSION_MAJOR}-xdebug \
         wget \
         yaml \
+    && ln -s /usr/bin/php${PHP_VERSION_MAJOR}        /usr/bin/php \
+    && ln -s /usr/bin/phpize${PHP_VERSION_MAJOR}     /usr/bin/phpize \
+    && ln -s /usr/bin/php-config${PHP_VERSION_MAJOR} /usr/bin/php-config \
+    && ln -s /usr/sbin/php-fpm${PHP_VERSION_MAJOR}   /usr/sbin/php-fpm \
     ## composer
     && wget -q -O - https://getcomposer.org/installer \
          | php --  --install-dir=/usr/local/bin --filename=composer \
@@ -47,7 +54,8 @@ RUN set -x \
     && apk --no-cache add --virtual .builddeps \
         autoconf \
         automake \
-        build-base \  
+        bash \
+        build-base \
         file \
         git \
         php${PHP_VERSION_MAJOR}-dev \
@@ -62,7 +70,7 @@ RUN set -x \
     && make \
 #    && make test \
     && make install \
-    && rm -rf /tmp/yaml* \    
+    && rm -rf /tmp/yaml* \
     ## webgrind (xdebug profile analyzer)
     && mkdir -p /code \
     && cd /code \
@@ -71,8 +79,8 @@ RUN set -x \
     && rm -rf .git \
     && apk del .builddeps \
     ## user
-    && adduser -D  -g '' -s /sbin/nologin -u 1000 docker
-    
+    && adduser -D  -g '' -s /sbin/nologin -u 1000 docker 
+
 COPY bin/*  /usr/local/bin/
 COPY etc/php-fpm.conf  /etc/php${PHP_VERSION_MAJOR}/
 
