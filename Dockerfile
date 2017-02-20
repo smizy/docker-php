@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.5
 MAINTAINER smizy
 
 ARG BUILD_DATE
@@ -37,12 +37,9 @@ RUN set -x \
         php${PHP_VERSION_MAJOR}-xml \
         php${PHP_VERSION_MAJOR}-zip \
         php${PHP_VERSION_MAJOR}-zlib \
+        php${PHP_VERSION_MAJOR}-xdebug \
         wget \
         yaml \
-    ## xdebug
-    && apk --no-cache --update add \
-        --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ \
-        php${PHP_VERSION_MAJOR}-xdebug \
     ## composer
     && wget -q -O - https://getcomposer.org/installer \
          | php --  --install-dir=/usr/local/bin --filename=composer \
