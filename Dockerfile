@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:3.6
 MAINTAINER smizy
 
 ARG BUILD_DATE
@@ -43,10 +43,6 @@ RUN set -x \
         php${PHP_VERSION_MAJOR}-zlib \
         wget \
         yaml \
-    && ln -s /usr/bin/php${PHP_VERSION_MAJOR}        /usr/bin/php \
-    && ln -s /usr/bin/phpize${PHP_VERSION_MAJOR}     /usr/bin/phpize \
-    && ln -s /usr/bin/php-config${PHP_VERSION_MAJOR} /usr/bin/php-config \
-    && ln -s /usr/sbin/php-fpm${PHP_VERSION_MAJOR}   /usr/sbin/php-fpm \
     ## composer
     && wget -q -O - https://getcomposer.org/installer \
          | php --  --install-dir=/usr/local/bin --filename=composer \
