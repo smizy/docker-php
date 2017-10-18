@@ -37,6 +37,7 @@ RUN set -x \
         php${PHP_VERSION_MAJOR}-phar \
 #        php${PHP_VERSION_MAJOR}-readline \
         php${PHP_VERSION_MAJOR}-session \
+        php${PHP_VERSION_MAJOR}-tokenizer \
         php${PHP_VERSION_MAJOR}-xdebug \
         php${PHP_VERSION_MAJOR}-xml \
         php${PHP_VERSION_MAJOR}-zip \
