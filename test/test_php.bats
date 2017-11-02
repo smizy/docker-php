@@ -17,7 +17,7 @@
 }
 
 @test "php-fpm is the correct version" {
-  run docker run smizy/php:${TAG} php-fpm -v
+  run docker run smizy/php:${TAG} sh -c "php-fpm -v"
   echo "${output}" 
 
   [ $status -eq 0 ]
