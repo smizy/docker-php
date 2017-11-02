@@ -44,6 +44,7 @@ RUN set -x \
         php${PHP_VERSION_MAJOR}-zlib \
         wget \
         yaml \
+    && ln -s /usr/sbin/php-fpm7 /usr/sbin/php-fpm \
     ## composer
     && wget -q -O - https://getcomposer.org/installer \
          | php --  --install-dir=/usr/local/bin --filename=composer \

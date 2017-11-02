@@ -16,6 +16,24 @@
   IFS="${_IFS}"
 }
 
+@test "php-fpm is the correct version" {
+  run docker run smizy/php:${TAG} php-fpm -v
+  echo "${output}" 
+
+  [ $status -eq 0 ]
+  
+  _IFS="${IFS}"
+  IFS=" "
+  
+  line1_words=( ${lines[0]} )
+  
+  echo "line1_word[1] ======> ${line1_words[1]}"
+
+  [ "${line1_words[1]}" = "${VERSION}" ]
+
+  IFS="${_IFS}"
+}
+
 @test "xdebug flag is correctly set" {
   run docker run -e XDEBUG_REMOTE=1 -e XDEBUG_PROFILER=1 smizy/php:${TAG} sh -c "php -i | grep xdebug.remote_enable"
   echo "${output}"  
