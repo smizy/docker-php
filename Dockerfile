@@ -1,11 +1,11 @@
 FROM alpine:3.5
-MAINTAINER smizy
 
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
 
 LABEL \
+    maintainer="smizy" \
     org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.docker.dockerfile="/Dockerfile" \
     org.label-schema.license="Apache License 2.0" \
@@ -18,7 +18,7 @@ LABEL \
 
 ENV PHP_VERSION           ${VERSION}
 ENV PHP_VERSION_MAJOR     5
-ENV PECL_YAML_VERSION     1.3.0
+ENV PECL_YAML_VERSION     1.3.1
 
 RUN set -x \
     && apk --no-cache --update add \
