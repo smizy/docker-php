@@ -18,7 +18,7 @@ LABEL \
 
 ENV PHP_VERSION           ${VERSION}
 ENV PHP_VERSION_MAJOR     7
-ENV PECL_YAML_VERSION     2.0.0
+ENV PECL_YAML_VERSION     2.0.2
 
 RUN set -x \
     && apk update \
